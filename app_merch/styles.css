@@ -413,22 +413,46 @@ a { color: var(--decor); text-decoration: none;}
 
 
 .scroll-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 55px;
-  height: 55px;
-  background:var(--decor);
-  color: var(--w);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  font-size: 24px;
-  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
-  z-index: 100;
+     position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.3s;
+    font-family: inherit;
+
+
 }
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    background: var(--primary);
+    filter: brightness(0.9);
+    transform: translateY(-5px) scale(1.05);
+}
+
+.scroll-top:active {
+    transform: scale(0.95);
+}
+
 
 input,
 textarea {
@@ -476,7 +500,13 @@ body.dark {
 .theme-toggle:hover {
     background: var(--decor);
     color: var(--w);
+    transform: translateY(-2px);
 }
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
 
 .fav {
     display: flex;
@@ -503,6 +533,53 @@ body.dark {
     content: "★";
     transform: scale(1.2);
 }
+
+.filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.filter-btn {
+    padding: 10px 22px;
+    background: var(--header);
+    color: var(--w);
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    font-family: inherit;
+}
+
+.filter-btn:hover {
+    background: var(--decor);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: rgb(81, 81, 140);
+    color: white;
+}
+
+/* Скрытая карточка */
+.card1.hidden {
+    display: none;
+}
+
+/* Счётчик */
+.filter-count {
+    text-align: center;
+    color: var(--bg);
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
 
 @media (max-width: 900px) {
   .layout {
