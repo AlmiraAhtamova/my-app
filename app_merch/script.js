@@ -97,3 +97,55 @@ filterButtons.forEach((button) => {
         filterCards(category);
     });
 });
+
+// ========================================
+// БУРГЕР-МЕНЮ
+// ========================================
+
+// 1. Находим элементы
+const burgerBtn = document.querySelector("#burgerBtn");
+const mobileNav = document.querySelector("#mobileNav");
+const overlay = document.querySelector("#overlay");
+
+// Функция открытия меню
+function openMenu() {
+    mobileNav.classList.add("open");
+    burgerBtn.classList.add("active");
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";  // блокируем прокрутку
+}
+
+// Функция закрытия меню
+function closeMenu() {
+    mobileNav.classList.remove("open");
+    burgerBtn.classList.remove("active");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";  // возвращаем прокрутку
+}
+
+// 2. Клик по бургеру
+burgerBtn.addEventListener("click", () => {
+    if (mobileNav.classList.contains("open")) {
+        closeMenu();
+    } else {
+        openMenu();
+    }
+});
+
+// 3. Клик по ссылке в меню
+const mobileLinks = mobileNav.querySelectorAll("a");
+mobileLinks.forEach((link) => {
+    link.addEventListener("click", closeMenu);
+});
+
+// 4. Клик по затемнению
+overlay.addEventListener("click", closeMenu);
+
+// 5. Закрытие по клавише Escape
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && mobileNav.classList.contains("open")) {
+        closeMenu();
+    }
+});
+
+
