@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — Ваш сайт</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="register.css"> 
+</head>
+<body>
+
+    <header class="nav">
+
+<a href="index.html" class="logo">★~Reverie~★</a>
+
+ <nav class="menu">
+      <a href="index.html">На главную</a>
+    </nav> 
+
+    <button class="theme-toggle" id="themeBtn" aria-label="Переключить тему">
+    🌓 Тема
+</button>
+  </header>
+    
+    <main class="register-main">
+        <form class="register-form" id="loginForm" novalidate>
+            <h1>Вход</h1>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" autocomplete="email" autofocus>
+                <small class="error" id="emailError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" autocomplete="current-password">
+                <small class="error" id="passwordError"></small>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                Войти
+            </button>
+
+            <p class="form-footer">
+                Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
+            </p>
+        </form>
+    </main>
+    
+   <footer>
+    <p>&copy; 2026, Reverie · <a href="Reverie28@gmail.com" >Reverie28@gmail.com</a></p>
+  </footer>
+
+<div class="modal-overlay" id="successModal">
+    <div class="modal">
+        <div class="modal-icon">✅</div>
+        <h2>Вход выполнен!</h2>
+        <p>Добро пожаловать обратно.</p>
+        <button class="modal-btn" id="modalClose">Продолжить</button>
+    </div>
+</div>
+
+    <script src="login.js"></script>
+</body>
+</html>
