@@ -56,50 +56,6 @@ scrollTopBtn.addEventListener("click", () => {
 });
 
 // ========================================
-// ЭЛЕМЕНТ 3: ФИЛЬТР КАРТОЧЕК
-// ========================================
-
-const filterButtons = document.querySelectorAll(".filter-btn");
-const cards1 = document.querySelectorAll(".card1");
-const filterCount = document.querySelector("#filterCount");
-
-// Функция фильтрации
-function filterCards(category) {
-    let visibleCount = 0;
-    
-    cards1.forEach((card1) => {
-        if (category === "all" || card1.dataset.category === category) {
-            card1.classList.remove("hidden");
-            visibleCount++;
-        } else {
-            card1.classList.add("hidden");
-        }
-    });
-    
-    // Обновляем счётчик
-    if (filterCount) {
-        filterCount.textContent = visibleCount;
-    }
-}
-
-// Инициализация при загрузке
-filterCards("all");
-
-// Слушаем клики по кнопкам
-filterButtons.forEach((button) => {
-    //добавить обработчика
-    button.addEventListener("click", () => {
-        // Убираем active у всех
-        filterButtons.forEach((btn) => btn.classList.remove("active"));
-        button.classList.add("active");
-        
-        // Фильтруем
-        const category = button.dataset.filter;
-        filterCards(category);
-    });
-});
-
-// ========================================
 // БУРГЕР-МЕНЮ
 // ========================================
 
@@ -181,19 +137,23 @@ if (slider) {
                 </div>
             </div>
         `;
-        track.appendChild(slideDiv);
+        track.appendChild(slideDiv);// готовая карточка в ленту
 
         const dot = document.createElement('button');
         dot.className = 'slider_dot';
         if (index === 0) dot.classList.add('active');
         dot.addEventListener('click', () => goToSlide(index));
-        dotsBox.appendChild(dot);
+        dotsBox.appendChild(dot);// положи в контейнкр
     });
 
     const dots = document.querySelectorAll('.slider_dot');
 
     function updateSlider() {
-        track.style.transform = `translateX(-${current * 33.333}%)`;
+        // Проверяем ширину экрана: если меньше 600px — сдвигаем на 100% (1 карточка), иначе на 33.333% (3 карточки)
+        const width = window.innerWidth;
+        const offset = width <= 600 ? 100 : 33.333;
+        
+        track.style.transform = `translateX(-${current * offset}%)`;
         
         dots.forEach((dot, i) => {
             dot.classList.toggle('active', i === current);
@@ -251,7 +211,7 @@ function saveCart() {
 
 // Отрисовка корзины
 function renderCart() {
-    cartItems.innerHTML = "";
+    cartItems.innerHTML = "";//очист товары
     let total = 0;
 
     if (cart.length === 0) {
@@ -318,6 +278,16 @@ function changeQty(id, delta) {
     saveCart();
 }
 
+const payBtn = document.getElementById("payBtn");
+
+payBtn.addEventListener("click", () => {
+    if (cart.length === 0) return;
+    alert("Оплата прошла успешно! Спасибо за покупку.");//всплыв окно
+    cart = [];
+    localStorage.removeItem('cart');
+    renderCart();
+});
+
 // Очистка корзины
 cartClear.addEventListener("click", () => {
     cart = [];
@@ -327,3 +297,177 @@ cartClear.addEventListener("click", () => {
 
 // Первый запуск отрисовки
 renderCart();
+
+// ========================================
+// Пагинация
+// ========================================
+
+const data = [
+    { id: 1, title: 'Плюш с теной', price: 599, img: 'tena.jpg', category: 'game' },
+    { id: 2, title: 'Рыцарь ночник', price: 250, img: 'holow.jpg', category: 'popul' },
+    { id: 3, title: 'Брелки с Лорой и Розой', price: 300, img: 'rusty.jpg', category: 'game' },
+    { id: 4, title: 'Значки с Рыцарем', price: 599, img: 'holow1.jpg', category: 'game' },
+    { id: 5, title: 'Носки с Папирусом и Сансом', price: 250, img: 'sans.jpg', category: 'popul' },
+    { id: 6, title: 'Брелки с Крисом и Сьюзи', price: 300, img: 'delt.jpg', category: 'popul' },
+    { id: 7, title: 'Стикерпак с Эллиотом', price: 199, img: 'elli.jpg', category: 'new' },
+    { id: 8, title: 'Значок с Авери', price: 250, img: 'avery.jpg', category: 'new' },
+    { id: 9, title: 'Брелок с Мобом', price: 300, img: 'Mob.jpg', category: 'new' },
+    { id: 10, title: 'Браслет Genshin', price: 300, img: 'gen.jpg', category: 'game' },
+    { id: 11, title: 'Брелки с Флауи и Псом', price: 250, img: 'under1.jpg', category: 'game' }
+];
+
+const PER_PAGE = 6; //6 карт
+let currentPage = 1;
+let filtered = data; //массив 
+
+const listEl = document.getElementById('list');
+const paginationBox = document.getElementById('pagination');
+const searchInput = document.getElementById('searchInput');
+const filterButtons = document.querySelectorAll('.filter-btn');
+const filterCount = document.getElementById('filterCount');
+
+//отрисовки одной карточки 
+function renderItem(item) {
+    const article = document.createElement('article');
+    article.className = 'card1'; // Используем ваш класс для красоты
+    article.innerHTML = `
+        <img src="${item.img}" alt="${item.title}" width="300" height="390">
+        <h3>${item.title}</h3> 
+        <p class="price">${item.price} руб.</p> 
+        <label class="fav">
+            <input type="checkbox">
+            <span>В избранное</span>
+        </label>
+        <button class="btn add-to-cart" 
+                data-id="${item.id}" 
+                data-name="${item.title}" 
+                data-price="${item.price}">
+            В корзину
+        </button>
+    `;
+    return article;
+}
+
+//Функция отрисовки списка (из методички)
+function renderPage(items, renderItem) {
+    listEl.innerHTML = '';
+    items.forEach(item => listEl.appendChild(renderItem(item)));
+}
+
+//Получение элементов текущей страницы
+function getPageItems() {
+    const start = (currentPage - 1) * PER_PAGE;
+    return filtered.slice(start, start + PER_PAGE);
+}
+
+//Отрисовка кнопок пагинации
+function renderPagination() {
+    const pages = Math.ceil(filtered.length / PER_PAGE) || 1;
+    paginationBox.innerHTML = '';
+
+    // Кнопка "Назад"
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = '<';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePagination();
+            window.scrollTo({ top: document.getElementById('cont1').offsetTop, behavior: 'smooth' });
+        }
+    });
+    paginationBox.appendChild(prevBtn);
+
+    // Кнопки с номерами
+    for (let i = 1; i <= pages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            currentPage = i;
+            updatePagination();
+            window.scrollTo({ top: document.getElementById('cont1').offsetTop, behavior: 'smooth' });
+        });
+        paginationBox.appendChild(btn);
+    }
+
+    // Кнопка "Вперёд"
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = '>';
+    nextBtn.disabled = currentPage === pages;
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < pages) {
+            currentPage++;
+            updatePagination();
+            window.scrollTo({ top: document.getElementById('cont1').offsetTop, behavior: 'smooth' });
+        }
+    });
+    paginationBox.appendChild(nextBtn);
+}
+
+//Общая функция обновления
+function updatePagination() {
+    renderPage(getPageItems(), renderItem);
+    renderPagination();
+    if (filterCount) filterCount.textContent = filtered.length;
+    
+    // Перевешиваем обработчики на новые кнопки "В корзину"
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = Number(btn.dataset.id);
+            const name = btn.dataset.name;
+            const price = Number(btn.dataset.price);
+            const item = cart.find(p => p.id === id);
+            if (item) item.qty += 1;
+            else cart.push({ id, name, price, qty: 1 });
+            saveCart();
+        });
+    });
+}
+
+//Фильтр по названию (из методички)
+searchInput.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    filtered = data.filter(d => d.title.toLowerCase().includes(q));
+    currentPage = 1;
+    updatePagination();
+});
+
+//Фильтр по категориям (кнопки)
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        const category = button.dataset.filter;
+        if (category === 'all') {
+            filtered = data;
+        } else {
+            filtered = data.filter(d => d.category === category);
+        }
+        
+        // Если есть поиск, применяем оба фильтра (опционально)
+        const q = searchInput.value.toLowerCase();
+        if (q) {
+            filtered = filtered.filter(d => d.title.toLowerCase().includes(q));
+        }
+        
+        currentPage = 1;
+        updatePagination();
+    });
+});
+
+//Первый запуск
+updatePagination();
+
+/////////////
+//Подписка
+////////////
+const subForm = document.querySelector(".sub-form");
+if (subForm) {
+    subForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Отменяем перезагрузку
+        alert("Спасибо за подписку!");
+        subForm.reset();
+    });
+}

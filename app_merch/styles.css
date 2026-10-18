@@ -435,21 +435,21 @@ header.nav {
     color: var(--text);
 }
 
-.cart-checkout {
+.payBtn {
     width: 100%;
     padding: 10px;
-    background:var(--header); 
+    background: var(--header);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    margin-bottom: 10px; /* Отступ до кнопки "Очистить" */
+    margin-bottom: 10px;
     transition: background 0.3s;
 }
 
-.cart-checkout:hover {
-    background: #21912a;
+.payBtn:hover {
+    background: #21912a; 
 }
 
 .cart-clear {
@@ -466,6 +466,59 @@ header.nav {
 .cart-clear:hover {
     background: #c0392b;
 }
+/* =====  ===== */
+/* ===== Пагинация ===== */
+.pagination-controls {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#searchInput {
+    padding: 10px 15px;
+    border: 2px solid var(--decor);
+    border-radius: 25px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+    font-family: inherit;
+}
+
+.pagination-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.pagination-box button {
+    padding: 8px 15px;
+    background: var(--header);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.pagination-box button:hover:not(:disabled) {
+    background: var(--decor);
+    transform: translateY(-2px);
+}
+
+.pagination-box button.active {
+    background: var(--decor);
+    transform: scale(1.1);
+}
+
+.pagination-box button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
 /* =====  ===== */
 
 .card {
@@ -1017,4 +1070,58 @@ textarea:focus {
   .decor2 p {
     font-size: 10px;
   }
+}
+
+@media (max-width: 600px) {
+    .cart-panel {
+        width: calc(100% - 40px); /* На всю ширину минус отступы */
+        left: 20px;
+        right: 20px;
+        bottom: 80px; /* Подняли выше, чтобы не мешала кнопке "Наверх" */
+    }
+}
+
+@media (max-width: 600px) {
+    .slide {
+        flex: 0 0 100%;
+        padding: 10px; 
+    }
+
+    .slide img {
+        height: 300px;
+    }
+
+    .slide_content h3 {
+        font-size: 16px;
+    }
+
+    .slider_prev { left: 10px; }
+    .slider_next { right: 10px; }
+
+    .slider_prev, .slider_next {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cart-panel {
+
+        width: calc(100% - 20px); 
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        padding: 15px; 
+    }
+
+    .cart-panel h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .cart-item-controls button {
+        width: 22px;
+        height: 22px;
+    }
 }

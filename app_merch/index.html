@@ -54,12 +54,12 @@
 </section>
 
 <section class="cards-section">
-    <div class="slider">
-        <div class="slider_track"></div>
+    <section class="slider">
+        <section class="slider_track"></section>
         <button class="slider_prev">❮</button>
         <button class="slider_next">❯</button>
-        <div class="slider_dots"></div>
-    </div>
+        <section class="slider_dots"></section>
+    </section>
 </section>
  
 <section class="decor2">
@@ -87,196 +87,25 @@
 </section>
 
 <section class="cont" id="cont1">
-         <h2>Товары</h2>
-    </section>
+    <h2>Товары</h2>
+</section>
 
-<div class="filters">
+<section class="filters">
     <button class="filter-btn active" data-filter="all">Все</button>
     <button class="filter-btn" data-filter="new">Новинки</button>
     <button class="filter-btn" data-filter="popul">Популярные</button>
     <button class="filter-btn" data-filter="game">Игры</button>
-</div>
+</section>
+
 <p class="filter-count">Показано: <span id="filterCount">0</span></p>
 
-  <section class="cards-section">
-        <article class="card1" data-category="game">
-         <img src="tena.jpg" alt="мерч по Дельтарун" width="300" height="390">
-          <h3>Плюш с Теной</h3> 
-          <p class="price">900 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="1" 
-            data-name="Плюш с Теной" 
-            data-price="900">
-            В корзину
-          </button>
-        </article>
- 
-        <article class="card1" data-category="popul">
-          <img src="holow.jpg" alt="мерч по Hollow knight" width="300" height="390">
-          <h3>Рыцарь ночник</h3> 
-          <p class="price">1250 руб.</p>
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="2" 
-            data-name="Рыцарь ночник" 
-            data-price="1250">
-            В корзину
-          </button>
-        </article> 
- 
-        <article class="card1" data-category="game">
-          <img src="rusty.jpg" alt="мерч по Растилейк" width="300" height="390">
-          <h3>Брелки с Лорой и Розой</h3> 
-          <p class="price">300 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="3" 
-            data-name="Брелки с Лорой и Розой" 
-            data-price="300">
-            В корзину
-          </button>
-        </article>
+<section class="pagination-controls">
+    <input type="text" id="searchInput" placeholder="Поиск по названию...">
+</section>
 
-        <article class="card1" data-category="game">
-          <img src="holow1.jpg" alt="мерч по Hollow knight" width="300" height="390">
-          <h3>Значки с Рыцарем</h3> 
-          <p class="price">220 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-         <button class="btn add-to-cart" 
-            data-id="4" 
-            data-name="Значки с Рыцарем" 
-            data-price="220">
-            В корзину
-          </button>
-        </article>
- 
-        <article class="card1" data-category="popul">
-          <img src="sans.jpg" alt="мерч по Undertail" width="300" height="390">
-          <h3>Носки с Папирусом и Сансем</h3> 
-          <p class="price">350 руб.</p>
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="5" 
-            data-name="Носки с Папирусом и Сансем" 
-            data-price="350">
-            В корзину
-          </button>
-        </article> 
- 
-        <article class="card1" data-category="popul">
-          <img src="delt.jpg" alt="мерч по  Дельтарун" width="300" height="390">
-          <h3>Брелки с Крисом и Сьюзи</h3> 
-          <p class="price">300 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="6" 
-            data-name="Брелки с Крисом и Сьюзи" 
-            data-price="300">
-            В корзину
-          </button>
-        </article>
-  
-        <article class="card1" data-category="game">
-          <img src="under1.jpg" alt="мерч по Undertail" width="300" height="390">
-          <h3>Брелки с Флауи и псом</h3> 
-          <p class="price">250 руб.</p>
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="7" 
-            data-name="Брелки с Флауи и псом" 
-            data-price="250">
-            В корзину
-          </button>
-        </article> 
- 
-        <article class="card1" data-category="game">
-          <img src="gen.jpg" alt="мерч по Геншину" width="300" height="390">
-          <h3>Браслет со Странником</h3> 
-          <p class="price">320 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="8" 
-            data-name="Браслет со Странником" 
-            data-price="320">
-            В корзину
-          </button>
-        </article>
+<section class="cards-section" id="list"></section>
 
-        <article class="card1" data-category="new">
-         <img src="elli.jpg" alt="мерч по Forsaken" width="300" height="390">
-          <h3>Стикерпак с Эллиотом</h3> 
-          <p class="price">199 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="9" 
-            data-name="Стикерпак с Эллиотом" 
-            data-price="199">
-            В корзину
-          </button>
-        </article>
- 
-        <article class="card1" data-category="new">
-          <span class="badge">NEW</span>
-          <img src="avery.jpg" alt="мерч по STWTDE" width="300" height="390">
-          <h3>Значок с Авери</h3> 
-          <p class="price">250 руб.</p>
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="10" 
-            data-name="Значок с Авери" 
-            data-price="250">
-            В корзину
-          </button>
-        </article>
- 
-        <article class="card1" data-category="new">
-          <span class="badge">NEW</span>
-          <img src="Mob.jpg" alt="мерч по ThatMob" width="300" height="390">
-          <h3>Брелок с Мобом и Твикселом</h3> 
-          <p class="price">300 руб.</p> 
-          <label class="fav">
-          <input type="checkbox">
-          <span>В избранное</span>
-          </label>
-          <button class="btn add-to-cart" 
-            data-id="11" 
-            data-name="Брелок с Мобом и Твикселом" 
-            data-price="300">
-            В корзину
-          </button>
-        </article>
-      </section>
+<nav id="pagination" class="pagination-box"></nav>
 
   <section class="decor2">
  <p>▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀</p>
@@ -343,7 +172,7 @@
     <p class="cart-total">
         Итого: <span id="cartTotal">0</span> руб.
     </p>
-    <button class="cart-checkout" id="cartCheckout">Оплатить</button>
+    <button class="payBtn" id="payBtn">Оплатить</button>
     <button class="cart-clear" id="cartClear">Очистить корзину</button>
   </section>
 
