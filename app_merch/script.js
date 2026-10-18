@@ -183,7 +183,6 @@ if (slider) {
         `;
         track.appendChild(slideDiv);
 
-        // Точки для каждого слайда (как в методичке)
         const dot = document.createElement('button');
         dot.className = 'slider_dot';
         if (index === 0) dot.classList.add('active');
@@ -194,8 +193,6 @@ if (slider) {
     const dots = document.querySelectorAll('.slider_dot');
 
     function updateSlider() {
-        // Сдвигаем ленту ровно на ширину одной карточки (треть)
-        // Формула остаётся простой, как в методичке, но с учётом 3-х карточек.
         track.style.transform = `translateX(-${current * 33.333}%)`;
         
         dots.forEach((dot, i) => {
@@ -203,28 +200,27 @@ if (slider) {
         });
     }
 
-    // 1. Функция goToSlide (СТРОГО ИЗ МЕТОДИЧКИ)
     function goToSlide(index) {
         current = (index + slides.length) % slides.length; // зацикливание
         updateSlider();
     }
 
-    // 2. Функции nextSlide и prevSlide (СТРОГО ИЗ МЕТОДИЧКИ)
+    //nextSlide и prevSlide 
     function nextSlide() { goToSlide(current + 1); }
     function prevSlide() { goToSlide(current - 1); }
 
-    // 3. Обработчики кнопок (СТРОГО ИЗ МЕТОДИЧКИ)
+    //Обработчики кнопок
     btnNext.addEventListener('click', nextSlide);
     btnPrev.addEventListener('click', prevSlide);
 
-    // 4. Автопрокрутка (СТРОГО ИЗ МЕТОДИЧКИ)
+    //Автопрокрутка
     let timer = setInterval(nextSlide, 3000);
     slider.addEventListener('mouseenter', () => clearInterval(timer));
     slider.addEventListener('mouseleave', () => {
         timer = setInterval(nextSlide, 3000);
     });
 
-    // 5. Свайп (СТРОГО ИЗ МЕТОДИЧКИ)
+    //Свайп
     let startX = 0;
     slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
     slider.addEventListener('touchend', e => {
@@ -232,3 +228,102 @@ if (slider) {
         if (Math.abs(dx) > 50) dx < 0 ? nextSlide() : prevSlide();
     });
 }
+
+//Корзина
+
+// Загрузка корзины из localStorage
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+const cartPanel = document.getElementById("cartPanel");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+const cartClear = document.getElementById("cartClear");
+
+// Если в корзине уже что-то есть при загрузке, показываем панель
+if (cart.length > 0) {
+    cartPanel.classList.add("active");
+}
+
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart(); // перерисовать блок корзины
+}
+
+// Отрисовка корзины
+function renderCart() {
+    cartItems.innerHTML = "";
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = "<p>Корзина пуста</p>";
+        cartPanel.classList.remove("active"); // Прячем панель, если пусто
+    } else {
+        cartPanel.classList.add("active"); // Показываем панель
+        
+        cart.forEach(item => {
+            total += item.price * item.qty;
+
+            const div = document.createElement("div");
+            div.className = "cart-item";
+            div.innerHTML = `
+                <span>${item.name} (${item.qty} шт.)</span>
+                <div class="cart-item-controls">
+                    <button class="cart-minus" data-id="${item.id}">-</button>
+                    <span>${item.qty}</span>
+                    <button class="cart-plus" data-id="${item.id}">+</button>
+                </div>
+            `;
+            cartItems.appendChild(div);
+        });
+    }
+
+    cartTotal.textContent = total;
+
+    // кнопки +/-
+    document.querySelectorAll('.cart-plus').forEach(btn => {
+        btn.addEventListener('click', () => changeQty(Number(btn.dataset.id), 1));
+    });
+    document.querySelectorAll('.cart-minus').forEach(btn => {
+        btn.addEventListener('click', () => changeQty(Number(btn.dataset.id), -1));
+    });
+}
+
+// Добавление товара
+document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = Number(btn.dataset.id);
+        const name = btn.dataset.name;
+        const price = Number(btn.dataset.price);
+
+        // Ищем, есть ли уже такой товар
+        const item = cart.find(p => p.id === id);
+        if (item) {
+            item.qty += 1; // Если есть — увеличиваем количество
+        } else {
+            // Если нет — добавляем новый
+            cart.push({ id: id, name: name, price: price, qty: 1 });
+        }
+        saveCart();
+    });
+});
+
+// Изменение количества
+function changeQty(id, delta) {
+    const item = cart.find(p => p.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) {
+        cart = cart.filter(p => p.id !== id);
+    }
+    saveCart();
+}
+
+// Очистка корзины
+cartClear.addEventListener("click", () => {
+    cart = [];
+    localStorage.removeItem('cart');
+    renderCart();
+});
+
+// Первый запуск отрисовки
+renderCart();
